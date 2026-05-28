@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三角洲塔防 - 新手攻略</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    background:#0a0f0a;
+    font-family:'Noto Sans SC',sans-serif;
+    color:#b8c4a8;
+    line-height:1.8;
+    overflow-x:hidden;
+}
+body::before{
+    content:'';position:fixed;top:0;left:0;right:0;bottom:0;
+    background:
+        repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(60,255,60,0.01) 2px,rgba(60,255,60,0.01) 4px),
+        radial-gradient(ellipse at 50% 0%,rgba(40,60,30,0.08) 0%,transparent 70%);
+    pointer-events:none;z-index:-1;
+}
+.hero{
+    text-align:center;padding:60px 20px 40px;
+    border-bottom:1px solid rgba(60,255,60,0.1);
+    position:relative;
+}
+.hero .subtitle{
+    font-family:'Orbitron',sans-serif;font-size:13px;
+    color:#5a6a4a;letter-spacing:6px;margin-bottom:12px;
+}
+.hero h1{
+    font-family:'Orbitron',sans-serif;font-size:42px;font-weight:900;
+    color:#3cff3c;
+    text-shadow:0 0 30px rgba(60,255,60,0.4),0 0 80px rgba(60,255,60,0.15);
+    letter-spacing:4px;
+}
+.hero .scan{width:100%;height:2px;background:linear-gradient(90deg,transparent,rgba(60,255,60,0.3),transparent);margin:20px auto 0;animation:scan 3s ease-in-out infinite}
+@keyframes scan{0%,100%{opacity:0.3}50%{opacity:1}}
+
+.container{max-width:880px;margin:0 auto;padding:20px 24px 60px}
+
+h2{
+    font-family:'Orbitron',sans-serif;font-size:22px;color:#c4a44a;
+    border-left:3px solid #c4a44a;padding-left:14px;margin:40px 0 18px;
+    text-shadow:0 0 10px rgba(196,164,74,0.2);
+}
+h3{
+    font-size:15px;color:#5a8f3c;margin:20px 0 10px;
+    font-family:'Orbitron',sans-serif;letter-spacing:1px;
+}
+
+.flow-steps{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
+.flow-step{
+    flex:1;min-width:130px;padding:16px 12px;
+    background:rgba(12,18,12,0.9);border:1px solid #2a3a2a;
+    text-align:center;position:relative;
+}
+.flow-step .step-num{
+    font-family:'Orbitron',sans-serif;font-size:24px;color:#3cff3c;
+    font-weight:900;
+}
+.flow-step .step-name{font-size:13px;margin-top:4px;font-weight:500}
+.flow-step .step-detail{font-size:10px;color:#6a8a5a;margin-top:4px}
+.flow-step:not(:last-child)::after{
+    content:'\2192';position:absolute;right:-16px;top:50%;
+    transform:translateY(-50%);color:#3cff3c;font-size:20px;
+    font-family:'Orbitron',sans-serif;
+}
+
+.key-table{width:100%;border-collapse:collapse;margin:12px 0}
+.key-table th{
+    text-align:left;padding:8px 12px;font-size:11px;
+    color:#6a8a5a;border-bottom:1px solid #1a2a1a;
+    font-family:'Orbitron',sans-serif;letter-spacing:1px;
+}
+.key-table td{padding:8px 12px;font-size:13px;border-bottom:1px solid rgba(26,42,26,0.5)}
+.key-table tr:hover td{background:rgba(60,255,60,0.03)}
+kbd{
+    display:inline-block;padding:2px 8px;
+    background:rgba(20,30,20,0.9);border:1px solid #3a5a3a;
+    border-radius:3px;font-family:'Orbitron',monospace;
+    font-size:12px;color:#3cff3c;min-width:18px;text-align:center;
+    margin:0 2px;
+}
+
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin:12px 0}
+.card{
+    background:rgba(12,18,12,0.9);border:1px solid #2a3a2a;
+    padding:14px 16px;
+}
+.card .card-icon{font-size:28px;margin-bottom:6px}
+.card .card-name{font-weight:700;font-size:14px;margin-bottom:2px}
+.card .card-en{font-size:10px;color:#5a6a4a;font-family:'Orbitron',sans-serif;margin-bottom:6px}
+.card .card-stats{font-size:11px;color:#8a9a7a}
+.card .card-tag{
+    display:inline-block;padding:1px 6px;font-size:9px;
+    border:1px solid;margin-top:6px;border-radius:2px;
+}
+.tag-cost{color:#c4a44a;border-color:#5a4a2a}
+.tag-dmg{color:#d4453b;border-color:#5a2a2a}
+.tag-range{color:#5a8f3c;border-color:#2a4a2a}
+.tag-special{color:#4a9abc;border-color:#2a4a5a}
+
+.tip-box{
+    background:rgba(60,255,60,0.04);border:1px solid rgba(60,255,60,0.12);
+    padding:14px 18px;margin:14px 0;font-size:13px;
+    border-radius:2px;
+}
+.tip-box strong{color:#c4a44a}
+
+.difficulty-row{display:flex;gap:12px;margin:12px 0}
+.diff-card{
+    flex:1;padding:14px;background:rgba(12,18,12,0.9);
+    border:1px solid #2a3a2a;min-width:180px;
+}
+.diff-card .dn{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900}
+.diff-card.diff-n .dn{color:#5a8f3c}
+.diff-card.diff-s .dn{color:#c4a44a}
+.diff-card.diff-c .dn{color:#d4453b}
+.diff-card .dcn{font-size:11px;color:#6a8a5a;margin:2px 0}
+.diff-card .dstats{font-size:10px;color:#8a9a7a;line-height:1.7}
+
+.terrain-mini{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.terrain-tag{
+    padding:4px 10px;font-size:11px;border:1px solid;
+    border-radius:2px;
+}
+.t-build{color:#5a8f3c;border-color:#2a4a2a;background:rgba(90,143,60,0.1)}
+.t-nobuild{color:#d4453b;border-color:#3a1a1a;background:rgba(212,69,59,0.08)}
+
+.footer{
+    text-align:center;padding:40px 20px;font-size:11px;
+    color:#4a5a3a;font-family:'Orbitron',sans-serif;
+    border-top:1px solid rgba(60,255,60,0.06);
+}
+
+@media(max-width:600px){
+    .hero h1{font-size:24px}
+    .flow-steps{flex-direction:column}
+    .flow-step:not(:last-child)::after{display:none}
+    .difficulty-row{flex-direction:column}
+    .card-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="subtitle">TACTICAL OPERATIONS MANUAL</div>
+    <h1>DELTA DEFENSE</h1>
+    <div>新手攻略 · 战术手册</div>
+    <div class="scan"></div>
+</div>
+
+<div class="container">
+
+<!-- ============ 游戏流程 ============ -->
+<h2>一、游戏流程</h2>
+<div class="flow-steps">
+    <div class="flow-step">
+        <div class="step-num">01</div>
+        <div class="step-name">点击 DEPLOY</div>
+        <div class="step-detail">军事风格起始界面</div>
+    </div>
+    <div class="flow-step">
+        <div class="step-num">02</div>
+        <div class="step-name">选择地图</div>
+        <div class="step-detail">零号大坝 / 航天基地</div>
+    </div>
+    <div class="flow-step">
+        <div class="step-num">03</div>
+        <div class="step-name">选择难度</div>
+        <div class="step-detail">普通 / 机密 / 绝密</div>
+    </div>
+    <div class="flow-step">
+        <div class="step-num">04</div>
+        <div class="step-name">选择干员</div>
+        <div class="step-detail">威龙 / 露娜 / 疾风 / 银翼</div>
+    </div>
+    <div class="flow-step">
+        <div class="step-num">05</div>
+        <div class="step-name">开始战斗</div>
+        <div class="step-detail">布防塔阵，迎接15波</div>
+    </div>
+</div>
+
+<div class="tip-box">
+    <strong>怎么赢？</strong> 守住 15 波敌人即为胜利。也可在第 13 波后在撤离点支付 <strong>45 哈夫币</strong> 提前撤离（第 15 波禁用撤离）。计时器（普通/机密 30 分钟，绝密无限制）归零则任务失败。
+</div>
+
+<!-- ============ 键盘快捷键 ============ -->
+<h2>二、键盘快捷键</h2>
+
+<h3>防御塔操作</h3>
+<table class="key-table">
+<tr><th>按键</th><th>功能</th><th>说明</th></tr>
+<tr><td><kbd>1</kbd></td><td>脉冲箭塔</td><td>100G · 快速单体 · 基础输出</td></tr>
+<tr><td><kbd>2</kbd></td><td>榴弹炮塔</td><td>200G · 溅射伤害 · 集群清理</td></tr>
+<tr><td><kbd>3</kbd></td><td>冷冻塔</td><td>150G · 减速 50% · 控制敌人</td></tr>
+<tr><td><kbd>4</kbd></td><td>电弧塔</td><td>350G · 高伤远距 · 连锁闪电×3</td></tr>
+<tr><td><kbd>5</kbd></td><td>枪塔</td><td>150G · 可装备武器切换</td></tr>
+<tr><td><kbd>6</kbd></td><td>前进基地</td><td>200G · 部署士兵巡逻作战</td></tr>
+<tr><td><kbd>S</kbd></td><td>出售塔</td><td>选中塔后按 S 出售，返还 70% 造价</td></tr>
+<tr><td><kbd>ESC</kbd></td><td>取消选择</td><td>取消当前选中的防御塔</td></tr>
+</table>
+
+<h3>战斗操作</h3>
+<table class="key-table">
+<tr><th>按键</th><th>功能</th><th>说明</th></tr>
+<tr><td><kbd>SPACE</kbd></td><td>开始下一波</td><td>当波敌人清空后按空格开启下一波</td></tr>
+<tr><td><kbd>Z</kbd></td><td>干员技能</td><td>使用当前选择干员的专属技能</td></tr>
+<tr><td><kbd>Q</kbd></td><td>空袭打击</td><td>消耗 25 哈夫币 · 路径敌人 300 伤害</td></tr>
+<tr><td><kbd>E</kbd></td><td>电磁脉冲</td><td>消耗 15 哈夫币 · 冻结全部敌人 5 秒</td></tr>
+<tr><td><kbd>F</kbd></td><td>撤离</td><td>撤离点激活后（第 13 波起）按 F 撤离</td></tr>
+<tr><td><kbd>TAB</kbd></td><td>切换地图</td><td>返回地图选择界面</td></tr>
+<tr><td><kbd>R</kbd></td><td>重新开始</td><td>游戏结束后按 R 重新开始当前配置</td></tr>
+</table>
+
+<h3>鼠标操作</h3>
+<table class="key-table">
+<tr><th>操作</th><th>功能</th></tr>
+<tr><td>左键点击空地</td><td>放置当前选中的防御塔（金币足够且地形可建造）</td></tr>
+<tr><td>左键点击已建塔</td><td>选中该塔，显示射程和升级信息</td></tr>
+<tr><td>右键点击已建塔</td><td>快速出售该塔，返还 70% 金币</td></tr>
+<tr><td>左键点击撤离点</td><td>撤离点激活后（第 13 波起），支付 45 HC 撤离（等价按 F）</td></tr>
+</table>
+
+<!-- ============ 难度系统 ============ -->
+<h2>三、难度系统</h2>
+<div class="difficulty-row">
+    <div class="diff-card diff-n">
+        <div class="dn">NORMAL</div>
+        <div class="dcn">普通</div>
+        <div class="dstats">
+            生命：20 · 金币：600<br>
+            敌人 HP：×1.0 · 速度：×1.0<br>
+            计时：30 分钟<br>
+            适合新手入门
+        </div>
+    </div>
+    <div class="diff-card diff-s">
+        <div class="dn">SECRET</div>
+        <div class="dcn">机密</div>
+        <div class="dstats">
+            生命：12 · 金币：400<br>
+            敌人 HP：×1.5 · 速度：×1.1<br>
+            击杀金币 -20% · 波次奖金 -30%<br>
+            计时：30 分钟 · 进阶挑战
+        </div>
+    </div>
+    <div class="diff-card diff-c">
+        <div class="dn">TOP SECRET</div>
+        <div class="dcn">绝密</div>
+        <div class="dstats">
+            生命：5 · 金币：250<br>
+            敌人 HP：×2.5 · 速度：×1.25<br>
+            击杀金币 -50% · 波次奖金 -60%<br>
+            无计时限制 · 极限挑战
+        </div>
+    </div>
+</div>
+
+<div class="tip-box">
+    <strong>计时器开关：</strong>难度选择界面可以取消勾选"启用计时器"，不限时自由发挥。绝密模式默认无计时。
+</div>
+
+<!-- ============ 地图 ============ -->
+<h2>四、两张地图</h2>
+
+<h3>零号大坝 (ZERO DAM)</h3>
+<p>工业水坝风格地图。蜿蜒路径从左上进入，穿越水域和废墟区，最终到达地图右侧。</p>
+<p style="font-size:12px;color:#6a8a5a;margin-top:4px">
+    特色地形：水域（减速30%）· 高地（塔+25%射程）· 废墟（敌人+20%防御）· 金属平台（枪塔+30%伤害）
+</p>
+<p style="font-size:12px;color:#6a8a5a">
+    终极 Boss：<strong style="color:#c43030">赛伊德 (SAEED)</strong> · HP 5000 · 护盾 100 · RPG 攻击 · 召唤拾荒者
+</p>
+<p style="font-size:12px;color:#6a8a5a">
+    撤离点：大坝工业电梯（col 16, row 10）· 第 13 波激活 · 费用 45 HC
+</p>
+<p style="font-size:12px;color:#c4a44a">
+    ⚡ 特殊事件：第 5 波 5% 概率触发免费撤离 → 若不撤离则第 6 波连续刷 3 只赛伊德！
+</p>
+
+<h3>航天基地 (SPACE BASE)</h3>
+<p>太空发射场风格地图。路径从左上蜿蜒至右下，穿越燃料区和发射塔。</p>
+<p style="font-size:12px;color:#6a8a5a;margin-top:4px">
+    特色地形：金属平台 · 燃料区（每秒5伤害）· 高地 · 加速管道（敌人+20%速度）· <strong style="color:#5a6a9a">二元桥（枪塔+15%伤害）</strong>
+</p>
+<p style="font-size:12px;color:#6a8a5a">
+    终极 Boss：<strong style="color:#5a4acc">轨道指挥官 (ORBITAL CMDR)</strong> · HP 4200 · 相位护盾 · 闪现 · AOE
+</p>
+<p style="font-size:12px;color:#6a8a5a">
+    撤离点：航天飞升（col 17, row 2）· 第 13 波激活 · 费用 45 HC
+</p>
+<p style="font-size:12px;color:#c4a44a">
+    ⚡ 第 10 波：二元桥刷新小 Boss <strong>乌鲁鲁</strong>！HP 800，近战攻击
+</p>
+
+<!-- ============ 防御塔 ============ -->
+<h2>五、防御塔详解</h2>
+<div class="card-grid">
+    <div class="card">
+        <div class="card-icon">&#9737;</div>
+        <div class="card-name">脉冲箭塔</div>
+        <div class="card-en">PULSE TURRET</div>
+        <div class="card-stats">
+            <span class="card-tag tag-cost">100G</span>
+            <span class="card-tag tag-dmg">30 伤害</span>
+            <span class="card-tag tag-range">130 射程</span>
+        </div>
+        <div style="font-size:11px;color:#8a9a7a;margin-top:4px">射速 0.7s · 快速单体输出 · 性价比高 · 游戏全程主力</div>
+    </div>
+    <div class="card">
+        <div class="card-icon">&#9881;</div>
+        <div class="card-name">榴弹炮塔</div>
+        <div class="card-en">HOWITZER</div>
+        <div class="card-stats">
+            <span class="card-tag tag-cost">200G</span>
+            <span class="card-tag tag-dmg">80 伤害</span>
+            <span class="card-tag tag-range">110 射程</span>
+        </div>
+        <div style="font-size:11px;color:#8a9a7a;margin-top:4px">溅射 60 范围 · 集群杀手 · 配合冰塔效果极佳</div>
+    </div>
+    <div class="card">
+        <div class="card-icon">&#10052;</div>
+        <div class="card-name">冷冻塔</div>
+        <div class="card-en">CRYO TOWER</div>
+        <div class="card-stats">
+            <span class="card-tag tag-cost">150G</span>
+            <span class="card-tag tag-dmg">15 伤害</span>
+            <span class="card-tag tag-special">减速 50%</span>
+        </div>
+        <div style="font-size:11px;color:#8a9a7a;margin-top:4px">核心控制塔 · 减速持续 2.5s · 必建 · 放弯道收益最大</div>
+    </div>
+    <div class="card">
+        <div class="card-icon">&#9889;</div>
+        <div class="card-name">电弧塔</div>
+        <div class="card-en">TESLA COIL</div>
+        <div class="card-stats">
+            <span class="card-tag tag-cost">350G</span>
+            <span class="card-tag tag-dmg">160 伤害</span>
+            <span class="card-tag tag-range">155 射程</span>
+        </div>
+        <div style="font-size:11px;color:#8a9a7a;margin-top:4px">连锁闪电×3 · 后期核心输出 · 贵但值 · 最好建在高地</div>
+    </div>
+    <div class="card">
+        <div class="card-icon">&#9760;</div>
+        <div class="card-name">枪塔</div>
+        <div class="card-en">GUN NEST</div>
+        <div class="card-stats">
+            <span class="card-tag tag-cost">150G</span>
+            <span class="card-tag tag-special">8 种武器</span>
+        </div>
+        <div style="font-size:11px;color:#8a9a7a;margin-top:4px">可装备武器：手枪→冲锋枪→霰弹枪→步枪→狙击→加特林→等离子炮→轨道炮 · 逐波解锁 · 建在金属平台/二元桥有伤害加成</div>
+    </div>
+    <div class="card">
+        <div class="card-icon">&#9763;</div>
+        <div class="card-name">前进基地</div>
+        <div class="card-en">FOB</div>
+        <div class="card-stats">
+            <span class="card-tag tag-cost">200G</span>
+            <span class="card-tag tag-special">3 名士兵</span>
+        </div>
+        <div style="font-size:11px;color:#8a9a7a;margin-top:4px">部署步兵/重装兵/医疗兵 · 自动巡逻作战 · 阵亡后可复活 · 补刀和拦截利器</div>
+    </div>
+</div>
+
+<h3>枪塔武器一览</h3>
+<table class="key-table">
+<tr><th>武器</th><th>解锁波次</th><th>费用</th><th>伤害</th><th>射程</th><th>射速</th><th>特性</th></tr>
+<tr><td>M9 手枪</td><td>初始</td><td>0G</td><td>22</td><td>120</td><td>0.55s</td><td>基础配置</td></tr>
+<tr><td>MP5 冲锋枪</td><td>波 2</td><td>80G</td><td>10</td><td>100</td><td>0.18s</td><td>射速快，散布 18°</td></tr>
+<tr><td>M1014 霰弹枪</td><td>波 3</td><td>120G</td><td>14×5</td><td>85</td><td>1.6s</td><td>5 发散布，近战群伤</td></tr>
+<tr><td>M4A1 突击步枪</td><td>波 4</td><td>180G</td><td>30</td><td>145</td><td>0.38s</td><td>均衡全能</td></tr>
+<tr><td>M82 狙击枪</td><td>波 5</td><td>250G</td><td>180</td><td>280</td><td>2.8s</td><td>超远射程，打 Boss 利器</td></tr>
+<tr><td>M134 加特林</td><td>波 6</td><td>350G</td><td>6</td><td>115</td><td>0.07s</td><td>极高射速，散布 25°</td></tr>
+<tr><td>等离子炮</td><td>波 7</td><td>300G</td><td>50</td><td>155</td><td>0.6s</td><td>溅射 45，穿透群伤</td></tr>
+<tr><td>轨道炮</td><td>波 9</td><td>500G</td><td>400</td><td>330</td><td>3.8s</td><td>穿透 + 超远距，一炮一个</td></tr>
+</table>
+
+<!-- ============ 干员 ============ -->
+<h2>六、干员系统</h2>
+<div class="card-grid">
+    <div class="card" style="border-left:3px solid #d4453b">
+        <div class="card-icon">&#128293;</div>
+        <div class="card-name">威龙 · 突击兵</div>
+        <div class="card-en">DRAGON</div>
+        <div class="card-stats">
+            <strong>龙焰冲锋</strong>：所有塔 +50% 伤害 12 秒<br>
+            冷却：60 秒
+        </div>
+    </div>
+    <div class="card" style="border-left:3px solid #5a8f9a">
+        <div class="card-icon">&#127769;</div>
+        <div class="card-name">露娜 · 支援兵</div>
+        <div class="card-en">LUNA</div>
+        <div class="card-stats">
+            <strong>月之治愈</strong>：每秒回 1 血持续 5 秒（共 5 点）<br>
+            冷却：90 秒
+        </div>
+    </div>
+    <div class="card" style="border-left:3px solid #3a8a5a">
+        <div class="card-icon">&#127788;</div>
+        <div class="card-name">疾风 · 侦察兵</div>
+        <div class="card-en">GALE</div>
+        <div class="card-stats">
+            <strong>疾风步</strong>：所有敌人减速 60% 持续 8 秒<br>
+            冷却：75 秒
+        </div>
+    </div>
+    <div class="card" style="border-left:3px solid #5a6a9a">
+        <div class="card-icon">&#129302;</div>
+        <div class="card-name">银翼 · 工程兵</div>
+        <div class="card-en">SILVER WING</div>
+        <div class="card-stats">
+            <strong>银翼无人机</strong>：部署 80 DPS 无人机 15 秒<br>
+            冷却：80 秒
+        </div>
+    </div>
+</div>
+
+<!-- ============ 哈夫币商店 ============ -->
+<h2>七、哈夫币商店</h2>
+<p style="font-size:12px;color:#6a8a5a">通过击杀 Boss (+5)、击杀 Miniboss/特殊敌人 (+1)、完美波次 (+2)、全清 (+1) 获得哈夫币。</p>
+<table class="key-table">
+<tr><th>道具</th><th>费用</th><th>效果</th></tr>
+<tr><td>急救包</td><td>5 HC</td><td>恢复 5 生命（绝密仅 2）</td></tr>
+<tr><td>肾上腺素</td><td>10 HC</td><td>所有塔 +50% 伤害 15 秒</td></tr>
+<tr><td>电磁脉冲</td><td>15 HC</td><td>冻结全部敌人 5 秒 · 快捷键 E</td></tr>
+<tr><td>空袭打击</td><td>25 HC</td><td>路径敌人受 300 伤害 · 快捷键 Q</td></tr>
+<tr><td>补给空投</td><td>40 HC</td><td>获得 300 金币</td></tr>
+</table>
+
+<!-- ============ 地形 ============ -->
+<h2>八、地形类型</h2>
+<div class="terrain-mini">
+    <span class="terrain-tag t-build">地面 · 可建造</span>
+    <span class="terrain-tag t-nobuild">水域 · 不可建造 · 敌人减速 30%</span>
+    <span class="terrain-tag t-build">高地 · 塔 +25% 射程</span>
+    <span class="terrain-tag t-build">废墟 · 敌人 +20% 防御</span>
+    <span class="terrain-tag t-build">金属平台 · 枪塔 +30% 伤害</span>
+    <span class="terrain-tag t-nobuild">燃料区 · 每秒 5 点伤害</span>
+    <span class="terrain-tag t-nobuild">加速管道 · 敌人 +20% 速度</span>
+    <span class="terrain-tag t-build">二元桥 · 枪塔 +15% 伤害</span>
+</div>
+
+<!-- ============ 撤离系统 ============ -->
+<h2>九、撤离系统</h2>
+<p>第 13 波起，地图上的撤离点（大坝工业电梯 / 航天飞升）激活，出现绿色脉动光芒和 ↑ 箭头。</p>
+<div class="tip-box">
+    <strong>撤离条件：</strong>
+    <ul style="margin:8px 0 0 16px;font-size:12px">
+        <li>费用：<strong>45 哈夫币</strong>（零号大坝第 5 波特殊事件触发时免费）</li>
+        <li>操作：点击撤离点 或 按 <kbd>F</kbd> 键</li>
+        <li>第 15 波（最终波）<strong>禁用撤离</strong>，必须死战到底</li>
+        <li>撤离成功 = 通关（EXTRACTION COMPLETE），无需打完 15 波</li>
+    </ul>
+</div>
+
+<!-- ============ 进阶策略 ============ -->
+<h2>十、进阶策略</h2>
+
+<h3>建塔思路</h3>
+<div class="tip-box">
+    <strong>弯道布局：</strong>冰塔放在路径拐弯处，减速效果最大化（敌人转弯时速度最慢）。炮塔放在弯道附近收割集群。
+</div>
+<div class="tip-box">
+    <strong>高低搭配：</strong>高地放电弧塔（射程×1.25），普通地面放冰塔和炮塔。金属平台/二元桥优先放枪塔。
+</div>
+<div class="tip-box">
+    <strong>枪塔策略：</strong>前期装手枪过渡 → 中期换步枪/狙击 → 后期轨道炮。注意不同武器有不同射程和散布。
+</div>
+
+<h3>经济管理</h3>
+<div class="tip-box">
+    <strong>前期（波1-5）：</strong>优先建箭塔（100G性价比最高），再补冰塔（150G）。不要过早建电弧塔（350G太贵）。
+</div>
+<div class="tip-box">
+    <strong>中期（波6-10）：</strong>逐步替换为电弧塔 + 炮塔组合。航天基地第 10 波乌鲁鲁来袭前确保防御充足。
+</div>
+<div class="tip-box">
+    <strong>后期（波11-15）：</strong>攒哈夫币应对 Boss 波。第 15 波不能撤离，必须全力输出！
+</div>
+
+<h3>干员选择</h3>
+<div class="tip-box">
+    <strong>新手推荐：露娜</strong> — 紧急回血保命。<br>
+    <strong>高手推荐：威龙</strong> — Boss 波开龙焰冲锋秒杀。<br>
+    <strong>控制流：疾风</strong> — 配合冰塔叠加减速。<br>
+    <strong>输出补强：银翼</strong> — 无人机自动追击，无须操作。
+</div>
+
+<h3>特殊事件应对</h3>
+<div class="tip-box">
+    <strong>零号大坝第 5 波：</strong>如果触发免费撤离（5%概率），建议新手直接撤离白嫖通关；高手可以选择不撤离，第 6 波迎战 3 只赛伊德刷更多金币和哈夫币。
+</div>
+<div class="tip-box">
+    <strong>航天基地第 10 波：</strong>乌鲁鲁在二元桥刷新，HP 800 比普通小兵硬。部署电弧塔 + 狙击枪塔集火，击杀后会播报"还是没有护住家人们"。
+</div>
+
+</div>
+
+<div class="footer">
+    DELTA DEFENSE v2.0 · CLASSIFIED OPERATIONS DIVISION · 战术手册
+</div>
+
+</body>
+</html>
