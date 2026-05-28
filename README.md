@@ -1,6 +1,6 @@
 # ▲ DELTA DEFENSE ▲
 
-**Delta Force 塔防游戏** | 一款以Rainbow Six Siege《彩虹六号：围攻》Delta Force为背景设定的策略塔防游戏
+**Delta Force 塔防游戏** | 一款以《三角洲行动》Delta Force为背景设定的策略塔防游戏
 
 ![Version](https://img.shields.io/badge/version-2.0-blue)
 ![HTML5](https://img.shields.io/badge/HTML5-Canvas-orange)
